@@ -29,7 +29,6 @@ $(document).ready(function () {
     });
 });
 </script>
-
 	<body>
 		<main>
 			<div class="layout">
@@ -39,46 +38,41 @@ $(document).ready(function () {
 						<div class="inside">
 							<div class="nav nav-tab menu">
 							<?php
-									$aa=$_SESSION['message_id'];
-									$q="SELECT Photo FROM user1 WHERE user_id='$aa'";
-									$conn=mysqli_connect("localhost","root","","chat");
-									$result=mysqli_query($conn,$q);
-									
-									if($result){
-										$row=mysqli_fetch_assoc($result);
-											
-											
-											
-										?>
+							$aa=$_SESSION['message_id'];
+							$q="SELECT Photo FROM user1 WHERE user_id='$aa'";
+							$conn=mysqli_connect("localhost","root","","chat");
+							$result=mysqli_query($conn,$q);
+							
+							if($result){
+								$row=mysqli_fetch_assoc($result);	
+							?>
 								<button class="btn"><img class="avatar-xl" src="<?php echo $row['Photo'];?>" alt="avatar"></button>
-								<?php
+							<?php
+							}
+							?>
+							<a href="#members" data-toggle="tab"><i class="material-icons">account_circle</i></a>
+							<a href="#discussions" data-toggle="tab" class="active"><i class="material-icons active">chat_bubble_outline</i></a>
+							<a href="#notifications" data-toggle="tab" class="f-grow1"><i class="material-icons">notifications_none</i></a>
+							<button class="btn mode"><i class="material-icons">brightness_2</i></button>
+							<a href="#settings" data-toggle="tab"><i class="material-icons">settings</i></a>
+							<form method="post">
+							<button name="logout1" class="btn power"><i class="material-icons">power_settings_new</i></button>
+							<?php
+							if(isset($_POST['logout1'])){
+								$status ="offline"; 
+							    setcookie("status", $status);
+								$query="UPDATE user1 SET status='$status' WHERE user_id='$aa'";
+								$result=mysqli_query($conn,$query);
+								if($result){
+									?>
+									<script>
+									window.location.href = "sign-in.php"
+									</script>
+									<?php
 										}
-										?>
-								<a href="#members" data-toggle="tab"><i class="material-icons">account_circle</i></a>
-								<a href="#discussions" data-toggle="tab" class="active"><i class="material-icons active">chat_bubble_outline</i></a>
-								<a href="#notifications" data-toggle="tab" class="f-grow1"><i class="material-icons">notifications_none</i></a>
-								<button class="btn mode"><i class="material-icons">brightness_2</i></button>
-								<a href="#settings" data-toggle="tab"><i class="material-icons">settings</i></a>
-								<form method="post">
-								<button name="logout1" class="btn power"><i class="material-icons">power_settings_new</i></button>
-								<?php
-												if(isset($_POST['logout1'])){
-													$status ="offline"; 
-												    setcookie("status", $status);
-													$query="UPDATE user1 SET status='$status' WHERE user_id='$aa'";
-													$result=mysqli_query($conn,$query);
-													if($result){
-														?>
-														
-														<script>
-														window.location.href = "sign-in.php"
-														</script>
-														<?php
-													}
-
-												}
-												?>
-									</form>
+									}
+									?>
+							/form>
 							</div>
 						</div>
 					</div>
@@ -113,9 +107,7 @@ $(document).ready(function () {
 												$q="INSERT INTO all_message(Name,messange_id,message_id_from,message,date) VALUES ('$name','$me','$from','$message','$date')";
 												$result=mysqli_query($conn,$q);
 												if($result){
-
 												}
-
 											}
 											?>
 										</form>
@@ -132,21 +124,15 @@ $(document).ready(function () {
 										<?php
 										$conn=mysqli_connect("localhost","root","","chat");
 									if(!$conn){
-							
 									}
 									?>
 									<?php
 									$aa=$_SESSION['message_id'];
 									$q="SELECT *FROM user1";
-									$result=mysqli_query($conn,$q);
-									
+									$result=mysqli_query($conn,$q);								
 									if($result){
-										while($row=mysqli_fetch_assoc($result)){
-											
-											
-										?>
-
-										
+										while($row=mysqli_fetch_assoc($result)){																						
+										?>	
 											<a id="button" href="#" class="filterMembers all <?php echo $row['status'];?> contact" data-toggle="list" data-name="<?php echo $row['Name']; ?>" data-contact-id="<?php echo $row['user_id']; ?>">
 												<img class="avatar-md" src="<?php echo $row['Photo'];?>" data-toggle="tooltip" data-placement="top" title="<?php echo $row['Name'];?>" alt="avatar">
 												<div class="status">
@@ -160,36 +146,35 @@ $(document).ready(function () {
 													<i class="material-icons">person</i>
 												</div>
 											</a>
-											<?php
+										<?php
+										}
 											}
-												}
-									
-									?>
+										?>
 
-	<?php
-	if(isset($_COOKIE['ss'])){
-		$messageId = $_COOKIE['ss'];
-	}
-	
-
-?>	
-<script>
-function setCookie(name, value) {
-    document.cookie = `${name}=${value}; path=/`;
-}
-
-// Attach a click event listener to each contact
-const contactList = document.getElementById('contacts');
-const contacts = contactList.getElementsByClassName('contact11');
-
-for (const contact of contacts) {
-    contact.addEventListener('click', function() {
-        const idName = this.getAttribute('data-id');
-        setCookie('ss', idName);
-        
-    });
-}
-</script>
+										<?php
+										if(isset($_COOKIE['ss'])){
+											$messageId = $_COOKIE['ss'];
+										}
+										
+										
+										?>	
+										<script>
+										function setCookie(name, value) {
+										    document.cookie = `${name}=${value}; path=/`;
+										}
+										
+										// Attach a click event listener to each contact
+										const contactList = document.getElementById('contacts');
+										const contacts = contactList.getElementsByClassName('contact11');
+										
+										for (const contact of contacts) {
+										    contact.addEventListener('click', function() {
+										        const idName = this.getAttribute('data-id');
+										        setCookie('ss', idName);
+										        
+										    });
+										}
+										</script>
 							</div>
 									</div>
 								</div>
@@ -310,50 +295,49 @@ for (const contact of contacts) {
 									<div class="settings">
 										<div class="profile">
 										<?php
-									
-															$rr=$_SESSION['message_id'];
-															$about="";
-															$query="SELECT Name,Photo,about FROM user1 WHERE user_id='$rr'";
-															$result=mysqli_query($conn,$query);
-															if($result){
-																$row=mysqli_fetch_assoc($result); 
-																$about=$row['about']; 
-																if($row==0){
-																	?>
-																	<img class="avatar-xl" src="user.png" alt="avatar">
-																	<h1><a href="#"></a></h1>
-																	<?php
-																}  
-																if($row>0){
-															?>
+										$rr=$_SESSION['message_id'];
+										$about="";
+										$query="SELECT Name,Photo,about FROM user1 WHERE user_id='$rr'";
+										$result=mysqli_query($conn,$query);
+										if($result){
+											$row=mysqli_fetch_assoc($result); 
+											$about=$row['about']; 
+											if($row==0){
+												?>
+												<img class="avatar-xl" src="user.png" alt="avatar">
+												<h1><a href="#"></a></h1>
+												<?php
+											}  
+											if($row>0){
+										?>
 											<img class="avatar-xl" src="<?php echo $row['Photo'];?>" alt="avatar">
 											<h1><a href="#"><?php echo $row['Name'];?></a></h1>
 											<?php
 															}
 														}
-															?>
-															<?php
-															$rr=$_SESSION['message_id'];
-															$q="SELECT *FROM user1";
-															$q1="SELECT *FROM all_message WHERE message_id_from='$rr'";
-															$q2="SELECT *FROM notification WHERE message_id='$rr'";
-															$result1=mysqli_query($conn,$q1);
-															$result=mysqli_query($conn,$q);
-															$result2=mysqli_query($conn,$q2);
-															$rowq=0;
-															$row1q=0;
-															$row2q=0;
-															if($result){
-																while($row=mysqli_fetch_assoc($result)){
-																	$rowq+=1;
-																}
-																while($row1=mysqli_fetch_assoc($result1)){
-																	$row1q+=1;
-																}
-																while($row2=mysqli_fetch_assoc($result2)){
-																	$row2q+=1;
-																}
-															?>
+											?>
+											<?php
+											$rr=$_SESSION['message_id'];
+											$q="SELECT *FROM user1";
+											$q1="SELECT *FROM all_message WHERE message_id_from='$rr'";
+											$q2="SELECT *FROM notification WHERE message_id='$rr'";
+											$result1=mysqli_query($conn,$q1);
+											$result=mysqli_query($conn,$q);
+											$result2=mysqli_query($conn,$q2);
+											$rowq=0;
+											$row1q=0;
+											$row2q=0;
+											if($result){
+												while($row=mysqli_fetch_assoc($result)){
+													$rowq+=1;
+												}
+												while($row1=mysqli_fetch_assoc($result1)){
+													$row1q+=1;
+												}
+												while($row2=mysqli_fetch_assoc($result2)){
+													$row2q+=1;
+												}
+											?>
 											<span><?php echo $about;?></span>
 											<div class="stats">
 												<div class="item">
@@ -478,9 +462,7 @@ for (const contact of contacts) {
 																$result=mysqli_query($conn,$q);
 																if($result){
 																	$confirm="Your account has successfully Deleted";
-																}
-																
-
+																}	
 															}
 															?>
 														</form>
@@ -907,31 +889,28 @@ for (const contact of contacts) {
 									<div class="container">
 										<div class="col-md-12">
 											<div class="inside">
-														<?php
-															$rr=$messageId;
+											<?php
+											$rr=$messageId;
+							
+											$query="SELECT Name,Photo,status FROM user1 WHERE user_id='$rr'";
+											$result=mysqli_query($conn,$query);
+											if($result){
 											
-															$query="SELECT Name,Photo,status FROM user1 WHERE user_id='$rr'";
-															$result=mysqli_query($conn,$query);
-															if($result){
-															
-																$row=mysqli_fetch_assoc($result);
-																if($row==0){    
-																	?>
-																
-												
-												<div class="status">
-													
-												</div>
-												<div class="data">
-													<h5><a href="#"></a></h5>
-													<span></span>
-													<?php
-																}
-															?>
-															<?php
+											$row=mysqli_fetch_assoc($result);
+											if($row==0){    
+										         ?>
+											<div class="status">
+											</div>
+											<div class="data">
+											<h5><a href="#"></a></h5>
+											<span></span>
+											<?php
+											}
+										         ?>
+											<?php
 
-															if($row>0){
-																?>
+											if($row>0){
+												?>
 												<a href="#"><img class="avatar-md" src="<?php echo $row['Photo'];?>" data-toggle="tooltip" data-placement="top" title="<?php echo $row['Name'];?>" alt="avatar"></a>
 												
 												<div class="status">
@@ -965,27 +944,27 @@ for (const contact of contacts) {
 								</div>
 								<form class="position-relative w-100" method="post">
 								<?php
-												if(isset($_POST['typing'])){
-													$con=1;
-													$messa=$_POST['typing'];
-													$from=$_SESSION['message_id'];
-													$name1=$_SESSION['name'];
-												
-													date_default_timezone_set('Asia/Kolkata');
-											        $date = date('h:i:s');
-													if($con===1){
-														$notification=$name1." have just sent you a new message";
-														$qqqq="INSERT INTO notification(message_id,message_id_from,notification,date) VALUES ('$messageId','$from','$notification','$date')";
-														$result2=mysqli_query($conn,$qqqq);
-													}
-													$con+=1;
-													$q="INSERT INTO all_message(name,messange_id,message_id_from,message,date) VALUES ('$name1','$from','$messageId','$messa','$date')";
-													$result=mysqli_query($conn,$q);
-													if($result){
+								if(isset($_POST['typing'])){
+									$con=1;
+									$messa=$_POST['typing'];
+									$from=$_SESSION['message_id'];
+									$name1=$_SESSION['name'];
+								
+									date_default_timezone_set('Asia/Kolkata');
+								$date = date('h:i:s');
+									if($con===1){
+										$notification=$name1." have just sent you a new message";
+										$qqqq="INSERT INTO notification(message_id,message_id_from,notification,date) VALUES ('$messageId','$from','$notification','$date')";
+										$result2=mysqli_query($conn,$qqqq);
+									}
+									$con+=1;
+									$q="INSERT INTO all_message(name,messange_id,message_id_from,message,date) VALUES ('$name1','$from','$messageId','$messa','$date')";
+									$result=mysqli_query($conn,$q);
+									if($result){
 
-													}
-												}
-												?>
+									}
+								}
+								?>
 								<div class="content" id="content">
 									<div class="container" id="mess">
 										<div class="col-md-12">
@@ -1030,13 +1009,13 @@ for (const contact of contacts) {
 												</div>
 											</div>
 											<?php
-													}}
-													?>
-														
-													<?php
-													if ($row['message'] != "" && ($row['messange_id'] === $qq && $row['message_id_from']=== $qqq)) {
-														// Start the message container
-														?>
+											}
+												}
+											?>		
+											<?php
+											if ($row['message'] != "" && ($row['messange_id'] === $qq && $row['message_id_from']=== $qqq)) {
+												// Start the message container
+											?>
 														<div class="message me">
 												<div class="text-main">
 													<div class="text-group me">
@@ -1057,22 +1036,17 @@ for (const contact of contacts) {
 											}
 
 											?>
-											
-											
-										
-								<div class="message">
-								<?php
-															
-											
-															$query="SELECT Name,Photo FROM user1 WHERE user_id='$qqq'";
-															$result=mysqli_query($conn,$query);
-															if($result){
-																$row=mysqli_fetch_assoc($result);    
-															?>
+											<div class="message">
+											<?php
+											$query="SELECT Name,Photo FROM user1 WHERE user_id='$qqq'";
+											$result=mysqli_query($conn,$query);
+											if($result){
+												$row=mysqli_fetch_assoc($result);    
+											?>
 												<img class="avatar-md" src="<?php echo $row['Photo'];?>" data-toggle="tooltip" data-placement="top" title="<?php echo $row['Name'];?>" alt="avatar">
 												<?php
-															}
-															?>
+												}
+												?>
 												<div class="text-main">
 													<div class="text-group">
 														<div class="text typing">
@@ -1085,10 +1059,6 @@ for (const contact of contacts) {
 													</div>
 												</div>
 											</div>
-									
-					
-											
-											
 										</div>
 									</div>
 								</div>
@@ -1096,17 +1066,12 @@ for (const contact of contacts) {
 								<div class="container">
 									<div class="col-md-12">
 										<div class="bottom">
-										
-											
 												<textarea name="typing" class="form-control" placeholder="Start typing for reply..." rows="1"></textarea>
 												<button class="btn emoticons"><i class="material-icons">insert_emoticon</i></button>
-												<button class="btn send"><i class="material-icons">send</i></button>
-												
+												<button class="btn send"><i class="material-icons">send</i></button>											
 											</form>
-
 											<label>
 												<input type="file">
-												
 											</label> 
 										</div>
 									</div>
