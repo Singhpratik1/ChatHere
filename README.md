@@ -24,19 +24,18 @@ Your main dashboard is your central hub for all things messaging. Here's what yo
 ## Getting Started
 
 1. Clone this repository to your local machine.
-2. Set up the necessary environment variables.
-3. Install the required dependencies using `npm install`.
-4. Run the application using `npm start`.
-5. Access the application in your web browser at `http://localhost:3000`.
+2. Set up the necessary environment variables, such as database configurations and email SMTP settings.
+3. Import the MySQL database schema included in the project.
+4. Update the PHP code to connect to your MySQL database.
+5. Run the application on a PHP-enabled server.
 
 ## Technologies Used
 
-- Frontend: React, Redux
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Authentication: JWT (JSON Web Tokens)
-- Real-time Messaging: Socket.io
-- Styling: CSS and SCSS
+- Frontend: HTML, CSS, JavaScript
+- Backend: PHP
+- Database: MySQL
+- Authentication: Email verification
+- Styling: CSS and Bootstrap
 
 ## Contributing
 
